@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Smoke tests" verbose="1">
+    <listeners>
+        <listener class-name="org.testng.reporters.EmailableReporter"></listener>
+    </listeners>
+    <test name="Post Tests">
+        <classes>
+            <class name="tests.Reservation"></class>
+        </classes>
+    </test>
+</suite>
