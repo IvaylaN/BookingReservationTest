@@ -23,7 +23,10 @@ public class FilterPage extends BasePage{
     }
 
     public void selectOrderByLowestPrice(){
-        WebElement  lowestPrice = (driver.findElement(By.xpath("//span[contains(text(), \"Price (highest first)\")]")));
+        WebElement expandOptions = driver.findElement(By.xpath("//button[@data-testid=\"sorters-dropdown-trigger\"]"));
+        smallWait.until(ExpectedConditions.elementToBeClickable(expandOptions));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", expandOptions);
+        WebElement lowestPrice = (driver.findElement(By.xpath("//span[contains(text(), \"Price (lowest first)\")]")));
         mediumWait.until(ExpectedConditions.visibilityOf(lowestPrice));
         clickElement(lowestPrice);
     }

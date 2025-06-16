@@ -1,14 +1,15 @@
 package tests;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import java.io.IOException;
-import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+
 public class BaseTestMethods {
 
     protected WebDriver driver;
@@ -24,15 +25,9 @@ public class BaseTestMethods {
         //cleanDirectory(SCREENSHOT_DIR);
         //cleanDirectory(REPORT_DIR);
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(15));
-        driver.get("https://www.booking.com");
-    }
-
-    public void closePopUp(){
-        Alert alert = driver.switchTo().alert();
-        // alert.accept();
-        alert.dismiss(); ;
+        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+        //driver.get("https://www.booking.com");
     }
 
     @AfterMethod

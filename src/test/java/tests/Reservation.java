@@ -15,10 +15,12 @@ public class Reservation extends BaseTestMethods {
     public void searchFoRHotelAndSetAdditionalFilters(String checkInDate, String checkOutDate) {
         SearchPage searchPage = new SearchPage(driver);
         FilterPage filterPage = new FilterPage(driver);
+        BasePage basePage = new BasePage(driver);
 
         System.out.println("1. Load Booking website");
         searchPage.navigateTo();
         searchPage.acceptCookiesIfPresent();
+        basePage.closeDialog();
 
         System.out.println("2. Search for a hotel, set dates and search");
         searchPage.searchDestination();
@@ -27,7 +29,6 @@ public class Reservation extends BaseTestMethods {
         searchPage.chooseNumberOfGuests();
 
         System.out.println("2. Set additional filter");
-        searchPage.closePopUp();
         filterPage.selectOrderByLowestPrice();
         filterPage.selectPropertyType();
         }

@@ -27,6 +27,9 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//span[@class=\"e32aa465fd\"][1]")
     private List<WebElement> occupancyData;
 
+    @FindBy(xpath = "//span[@class= \"e32aa465fd\" and contains(text(), \"2\")]")
+    private WebElement adultCount;
+
     @FindBy(xpath = "//button[@type='submit']//span[text()='Search']")
     private WebElement searchBtn;
 
@@ -35,6 +38,9 @@ public class SearchPage extends BasePage {
 
     @FindBy(xpath = "//button[@aria-label=\"Next month\"]")
     WebElement calendarNextBtn;
+
+    @FindBy(xpath = "//button[@aria-label=\"Next month\"]")
+    WebElement acceptCookiesBtn;
 
     public SearchPage(WebDriver driver) {
         super(driver);
@@ -76,15 +82,19 @@ public class SearchPage extends BasePage {
         smallWait.until(ExpectedConditions.elementToBeClickable(searchButton)).click();
     }
 
-    public WebElement getAdultCount(){
-        return occupancyData.get(0);
+    /*public WebElement getAdultCount(){
+        return occupancyData.getFirst();
+    }*/
+
+    public String getGuestNumber() {
+        return adultCount.getText();
     }
 
     public void chooseNumberOfGuests() {
         occupancyField.click();
         mediumWait.until(ExpectedConditions.visibilityOf(occupancyPopUp));
-        int adultCount = Integer.parseInt(String.valueOf(getAdultCount()));
-        if(adultCount == 2){
+        int adultCount = Integer.parseInt(getGuestNumber());
+        if(adultCount == 2) {
             clickSearch();
         }
     }
@@ -94,6 +104,7 @@ public class SearchPage extends BasePage {
     }
 
     public void searchDestination() {
+        mediumWait.until(ExpectedConditions.visibilityOf(destinationSearchField));
         destinationSearchField.clear();
         Actions actions = new Actions(driver);
         actions.doubleClick(destinationSearchField).perform();
@@ -101,7 +112,6 @@ public class SearchPage extends BasePage {
             destinationSearchField.click();
         }
         mediumWait.until(ExpectedConditions.visibilityOf(optionsTable));
-
         selectCityByValue();
         //getCurrentCity("Sofia, Bulgaria");
     }
@@ -114,11 +124,10 @@ public class SearchPage extends BasePage {
 
     public void acceptCookiesIfPresent() {
         try {
-            WebElement acceptBtn = mediumWait.until(ExpectedConditions.elementToBeClickable(
-                    By.id("onetrust-accept-btn-handler")));
+            WebElement acceptBtn = mediumWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id=\"onetrust-accept-btn-handler\" and contains(text(), \"Accept\")]")));
             acceptBtn.click();
             mediumWait.until(ExpectedConditions.invisibilityOf(acceptBtn));
-        } catch (TimeoutException e) {
+        } catch (TimeoutException _) {
         }
     }
 
@@ -126,16 +135,13 @@ public class SearchPage extends BasePage {
         waitForVisibility(destinationSearchField);
         return destinationSearchField.getText();
     }
+
     public void getCurrentCity(String text) {
         Assert.assertTrue(getSearchFieldCity().contains("Sofia, Bulgaria"));
     }
+
     public void navigateTo(){
         driver.get(URL);
-    }
-    public void closePopUp() {
-        Alert alert = driver.switchTo().alert();
-        alert.dismiss();
-
     }
 }
 
