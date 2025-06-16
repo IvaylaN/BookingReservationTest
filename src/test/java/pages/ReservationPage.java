@@ -49,6 +49,5 @@ public class ReservationPage extends BasePage{
         if (!newCardBox.isSelected()) {
             clickElement(newCardBox);
         }
-
     }
 }

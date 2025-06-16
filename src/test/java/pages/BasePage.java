@@ -4,7 +4,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BasePage {
     public BasePage(WebDriver driver) {
@@ -13,7 +17,7 @@ public class BasePage {
         mediumWait = new WebDriverWait(driver, Duration.ofSeconds(40));
     }
 
-    protected WebDriver driver;
+    protected static WebDriver driver;
     protected WebDriverWait smallWait;
     protected WebDriverWait mediumWait;
 
@@ -34,5 +38,12 @@ public class BasePage {
 
     public void waitForVisibility(WebElement element){
         smallWait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public void moveToNewWindow(){
+        List<String> windows = new ArrayList<>(driver.getWindowHandles());
+        String secondwindow = windows.get(1);
+        String currentURL = driver.getCurrentUrl();
+        Assert.assertEquals(secondwindow, currentURL, "New window URL is not correct.");
     }
 }

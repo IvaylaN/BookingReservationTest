@@ -2,9 +2,7 @@ package tests;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import pages.FilterPage;
-import pages.ReservationPage;
-import pages.SearchPage;
+import pages.*;
 
 public class Reservation extends BaseTestMethods {
 
@@ -30,40 +28,34 @@ public class Reservation extends BaseTestMethods {
 
         System.out.println("2. Set additional filter");
         searchPage.closePopUp();
-      /*  filterPage.applyFilters();
-        filterPage.selectThirdHotel();
-        filterPage.selectCheapestRoom();*/
-
-
-
-
-
-
-
-
-
-
-
+        filterPage.selectOrderByLowestPrice();
+        filterPage.selectPropertyType();
         }
 
     @Test (dependsOnMethods = "searchFoRHotelAndSetAdditionalFilters")
     public void selectHotelAndVerifyDetails(){
+        HotelPage hotelPage = new HotelPage(driver);
+        FilterPage filterPage = new FilterPage(driver);
+        BasePage basePage = new BasePage(driver);
 
-
-
-
+        System.out.println("1. Select the third hotel and its cheapest room");
+        filterPage.selectThirdHotel();
+        basePage.moveToNewWindow();
+        //filterPage.selectCheapestRoom();
+        hotelPage.selectReserveBtn();
+        hotelPage.selectApartment();
+        hotelPage.selectIWillReserveBtn();
     }
-
 
     @Test (dependsOnMethods = "selectHotelAndVerifyDetails")
     public void fillGuestInformationAndVerifuPayment(){
         ReservationPage reservationPage = new ReservationPage(driver);
+        BasePage basePage = new BasePage(driver);
 
+        basePage.moveToNewWindow();
         reservationPage.fillGuestDetails();
         reservationPage.fillPhoneNumber();
         reservationPage.verifyPaymentMethodWithCard();
     }
-
-
 }
 
