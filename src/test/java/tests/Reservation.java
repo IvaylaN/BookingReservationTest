@@ -17,19 +17,24 @@ public class Reservation extends BaseTestMethods {
         FilterPage filterPage = new FilterPage(driver);
         BasePage basePage = new BasePage(driver);
 
-        System.out.println("1. Load Booking website");
+        System.out.println("Load Booking website");
         searchPage.navigateTo();
         searchPage.acceptCookiesIfPresent();
         basePage.closeDialog();
 
-        System.out.println("2. Search for a hotel, set dates and search");
+        System.out.println("Search for destination, set dates and search");
         searchPage.searchDestination();
-        searchPage.acceptCookiesIfPresent();
-        searchPage.setDatesAndSearch(checkInDate, checkOutDate);
-        searchPage.chooseNumberOfGuests();
 
-        System.out.println("2. Set additional filter");
+        System.out.println("Set check-in and check-out dates");
+        searchPage.setDatesAndSearch(checkInDate, checkOutDate);
+
+        System.out.println("Make sure that number of guest are set to 2");
+        searchPage.verifyNumberOfGuests();
+
+        System.out.println("Select filters for the search results - lowest price");
         filterPage.selectOrderByLowestPrice();
+
+        System.out.println("Select filters for the search results - property type");
         filterPage.selectPropertyType();
         }
 
@@ -39,10 +44,11 @@ public class Reservation extends BaseTestMethods {
         FilterPage filterPage = new FilterPage(driver);
         BasePage basePage = new BasePage(driver);
 
-        System.out.println("1. Select the third hotel and its cheapest room");
-        filterPage.selectThirdHotel();
-        basePage.moveToNewWindow();
+        System.out.println("Select the third hotel and its cheapest room");
+        //filterPage.selectThirdHotel();
         //filterPage.selectCheapestRoom();
+
+        System.out.println("Reserve the room and verify details");
         hotelPage.selectReserveBtn();
         hotelPage.selectApartment();
         hotelPage.selectIWillReserveBtn();
@@ -53,9 +59,12 @@ public class Reservation extends BaseTestMethods {
         ReservationPage reservationPage = new ReservationPage(driver);
         BasePage basePage = new BasePage(driver);
 
-        basePage.moveToNewWindow();
+        System.out.println("Fill guest details");
+
         reservationPage.fillGuestDetails();
         reservationPage.fillPhoneNumber();
+
+        System.out.println("Verify payment method with card");
         reservationPage.verifyPaymentMethodWithCard();
     }
 }

@@ -31,7 +31,6 @@ public class HotelPage extends BasePage {
     public void selectApartment() {
         Select dropDown = new Select(driver.findElement(By.cssSelector(".hprt-nos-select js-hprt-nos-select")));
         dropDown.selectByValue("1");
-        //assert
     }
 
     public void selectIWillReserveBtn() {

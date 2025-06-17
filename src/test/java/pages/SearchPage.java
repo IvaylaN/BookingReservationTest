@@ -82,15 +82,11 @@ public class SearchPage extends BasePage {
         smallWait.until(ExpectedConditions.elementToBeClickable(searchButton)).click();
     }
 
-    /*public WebElement getAdultCount(){
-        return occupancyData.getFirst();
-    }*/
-
     public String getGuestNumber() {
         return adultCount.getText();
     }
 
-    public void chooseNumberOfGuests() {
+    public void verifyNumberOfGuests() {
         occupancyField.click();
         mediumWait.until(ExpectedConditions.visibilityOf(occupancyPopUp));
         int adultCount = Integer.parseInt(getGuestNumber());
@@ -104,8 +100,6 @@ public class SearchPage extends BasePage {
     }
 
     public void searchDestination() {
-        mediumWait.until(ExpectedConditions.visibilityOf(destinationSearchField));
-        destinationSearchField.clear();
         Actions actions = new Actions(driver);
         actions.doubleClick(destinationSearchField).perform();
         if (!optionsTable.isDisplayed()){
@@ -113,7 +107,7 @@ public class SearchPage extends BasePage {
         }
         mediumWait.until(ExpectedConditions.visibilityOf(optionsTable));
         selectCityByValue();
-        //getCurrentCity("Sofia, Bulgaria");
+        //Assert.assertTrue(getSearchFieldCity().contains("Sofia"), "The selected city is not Sofia");
     }
 
     public void selectCityByValue(){
@@ -134,10 +128,6 @@ public class SearchPage extends BasePage {
     public String getSearchFieldCity(){
         waitForVisibility(destinationSearchField);
         return destinationSearchField.getText();
-    }
-
-    public void getCurrentCity(String text) {
-        Assert.assertTrue(getSearchFieldCity().contains("Sofia, Bulgaria"));
     }
 
     public void navigateTo(){
